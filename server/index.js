@@ -15,6 +15,9 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 
+// Health check route
+app.get('/api/health', (req, res) => res.json({ status: 'Backend is fully operational!' }));
+
 // Serve frontend
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.get('*', (req, res) => {

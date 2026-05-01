@@ -56,6 +56,7 @@ export default function Tasks() {
       fetchTasks();
     } catch (error) {
       console.error('Error saving task', error);
+      alert(error.response?.data?.error || error.response?.data?.errors?.[0]?.msg || error.message || 'Error saving task');
     }
   };
 
@@ -90,9 +91,11 @@ export default function Tasks() {
     <div>
       <div className="navbar">
         <h1>Tasks</h1>
-        <button className="btn" onClick={() => openModal()}>
-          <Plus size={16} /> New Task
-        </button>
+        {user.role === 'Admin' && (
+          <button className="btn" onClick={() => openModal()}>
+            <Plus size={16} /> New Task
+          </button>
+        )}
       </div>
 
       <div style={{ background: 'var(--bg-card)', borderRadius: '1rem', border: 'var(--glass-border)', overflow: 'hidden' }}>

@@ -15,7 +15,7 @@ export default function Signup() {
     try {
       await signup(name, email, password, role);
     } catch (err) {
-      setError(err.response?.data?.error || err.response?.data?.errors?.[0]?.msg || 'Signup failed');
+      setError(err.response?.data?.error || err.response?.data?.errors?.[0]?.msg || err.message || 'Signup failed');
     }
   };
 
