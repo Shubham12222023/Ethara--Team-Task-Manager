@@ -26,11 +26,12 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-sequelize.sync({ force: false }).then(() => {
-  console.log('Database synced');
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+  
+  sequelize.sync({ force: false }).then(() => {
+    console.log('Database synced');
+  }).catch(err => {
+    console.error('Failed to sync database:', err);
   });
-}).catch(err => {
-  console.error('Failed to sync database', err);
 });

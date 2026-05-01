@@ -13,11 +13,17 @@ if (process.env.DATABASE_URL) {
   });
 } else {
   // Use SQLite for local development
-  sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.join(__dirname, 'database.sqlite'),
-    logging: false
-  });
+  if (process.env.NODE_ENV === 'production') {
+    // If we are in production but forgot DATABASE_URL, don't use sqlite (causes crash).
+    sequelize = new Sequelize('postgres://fake:fake@fake:5432/fake', { logging: false });
+    console.error('\nCRITICAL: DATABASE_URL is missing in Railway Variables!\n');
+  } else {
+    sequelize = new Sequelize({
+      dialect: 'sqlite',
+      storage: path.join(__dirname, 'database.sqlite'),
+      logging: false
+    });
+  }
 }
 
 module.exports = sequelize;
